@@ -17,7 +17,6 @@ pip-wheel-metadata/
 *.chkpt
 checkpoints/*
 !checkpoints/.gitkeep
-corpus/
 .DS_Store
 Thumbs.db
 .vscode/
