@@ -1,0 +1,7 @@
+[
+  {
+    "key": "ctrl+f10",
+    "command": "debug.runToCursor",
+    "when": "editorTextFocus && editorLangId == python"
+  }
+]
