@@ -11,9 +11,22 @@ class Dataset:
     def __init__(self, path: str | Path) -> None:
         path = Path(path)
         if not path.exists():
-            raise FileNotFoundError(f"Dataset file not found: {path}")
+            raise FileNotFoundError(f"Dataset path not found: {path}")
 
-        content = path.read_bytes().decode("utf-8").replace("\r", "")
+        if path.is_file():
+            files = [path]
+        elif path.is_dir():
+            files = sorted(path.rglob("*.txt"))
+            if not files:
+                raise FileNotFoundError(f"No text files found in dataset directory: {path}")
+        else:
+            raise FileNotFoundError(f"Dataset path is not a file or directory: {path}")
+
+        contents = []
+        for file_path in files:
+            contents.append(file_path.read_bytes().decode("utf-8").replace("\r", ""))
+
+        content = "\n".join(contents)
         self.vocab = sorted(set(content))
         self.vocab_map = {character: index for index, character in enumerate(self.vocab)}
         self.tokens = self.encode(content)

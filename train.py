@@ -17,16 +17,19 @@ def resolve_dataset_path(dataset_arg: str | None = None) -> Path:
     if dataset_arg:
         return Path(dataset_arg)
 
-    default_path = project_dir / "books" / "#0183_musical_punk_3_4.txt"
-    if default_path.exists():
-        return default_path
+    default_candidates = [
+        project_dir / "dataset",
+    ]
+    for candidate in default_candidates:
+        if candidate.exists():
+            return candidate
 
-    return Path("books") / "#0183_musical_punk_3_4.txt"
+    return Path("dataset")
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Train the language model")
-    parser.add_argument("dataset", nargs="?", default=None, help="Path to the training text file")
+    parser.add_argument("dataset", nargs="?", default=None, help="Path to a text file or directory of .txt files")
     parser.add_argument("--max-iter", type=int, default=5000, help="Number of training iterations")
     parser.add_argument(
         "--checkpoint-interval",
