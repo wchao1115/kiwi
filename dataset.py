@@ -7,6 +7,21 @@ import torch
 from globals import G
 
 
+def resolve_dataset_path(dataset_arg: str | None = None) -> Path:
+    project_dir = Path(__file__).resolve().parent
+    if dataset_arg:
+        return Path(dataset_arg)
+
+    default_candidates = [
+        project_dir / "dataset",
+    ]
+    for candidate in default_candidates:
+        if candidate.exists():
+            return candidate
+
+    return Path("dataset")
+
+
 class Dataset:
     def __init__(self, path: str | Path) -> None:
         path = Path(path)

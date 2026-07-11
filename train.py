@@ -5,26 +5,11 @@ from pathlib import Path
 
 import torch
 
-from dataset import Dataset
+from dataset import Dataset, resolve_dataset_path
 from globals import G
 from model import Model
 from stopwatch import Stopwatch
 from trainer import Trainer
-
-
-def resolve_dataset_path(dataset_arg: str | None = None) -> Path:
-    project_dir = Path(__file__).resolve().parent
-    if dataset_arg:
-        return Path(dataset_arg)
-
-    default_candidates = [
-        project_dir / "dataset",
-    ]
-    for candidate in default_candidates:
-        if candidate.exists():
-            return candidate
-
-    return Path("dataset")
 
 
 def main() -> int:
